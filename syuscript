@@ -1,0 +1,43 @@
+#!/bin/bash
+# syuscript 2019-07-11
+# https://bbs.archlinux.org/viewtopic.php?id=246036
+# https://bbs.archlinux.org/viewtopic.php?id=132322
+
+bold='\033[1m'
+cyan='\033[0;96m'
+red='\033[0;91m'
+yellow="\033[0;93m"
+none='\033[00m'
+
+Filedate=$(find /home/jeff/Desktop/prep4ud.dir/ | sort | tail -1 | awk -F'/' '{print $6}')
+
+echo -e "${cyan} ${bold}
+  Contents of ${Filedate}:
+${none}"
+
+
+	cat /home/jeff/Desktop/prep4ud.dir/"${Filedate}"
+
+echo -e "${cyan} ${bold}
+  Running pacman:
+${none}"
+
+	sudo pacman --color=always -Syu
+
+echo -e "${cyan}${bold}
+  Checking for need to restart: ${none}"
+
+	[ -d "/usr/lib/modules/$(uname -r)" ] || echo -e ${yellow}${bold} " Kernel was updated ${none}"
+
+if	lsof | grep -q 'DEL.*lib' ; then
+
+	echo
+	echo -e "${cyan}${bold}  Running overdue script..... ${none}"
+	sudo overdue
+	echo
+	else	
+	echo -e "${cyan}${bold}  No need to restart ${none}"
+fi
+
+	echo
+
