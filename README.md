@@ -1,5 +1,5 @@
 # syuscript														<br>
-<br>'
+<br>
 Syuscript is a system update script used to provide additional pre and post system update information.			<br>
 															<br>
 The syuscript uses:													<br>
