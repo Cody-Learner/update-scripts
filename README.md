@@ -9,7 +9,7 @@ A slightly modified overdue script by : https://github.com/tylerjl/overdue/blob/
 															<br>
 															<br> 
 Running syuscript:													<br>
-(1) Prints latest prep4ud log, providing last update & reboot times + list updatable packages downloaded.		<br>
+(1) Prints latest prep4ud report providing last update & reboot times + list updatable packages downloaded.		<br>
 (2) Runs 'sudo pacman -Syu'.												<br>
 (3) Checks and prints results of a potential kernel update.								<br>
 (4) Runs the overdue script to print systemd services to potentially restart.						<br>
