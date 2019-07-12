@@ -4,7 +4,7 @@ Syuscript is a system update script used to provide additional pre and post syst
 															<br>
 The syuscript uses:													<br>
 pacman -Syu for system updates												<br>
-prep4ud script logs                              : https://github.com/Cody-Learner/prep4ud 				<br>
+prep4ud script reports                : https://github.com/Cody-Learner/prep4ud 					<br>
 A slightly modified overdue script by : https://github.com/tylerjl/overdue/blob/master/src/overdue.sh.			<br>
 															<br>
 															<br> 
