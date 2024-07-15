@@ -10,7 +10,7 @@ The `checkrebuild` script of Arch package: [rebuild-detector](https://archlinux.
 **Running syuscript:**															<br>
 (1) Prints latest `prep4ud` report providing last update & reboot times + list updatable packages downloaded.				<br>
 (2) Runs `sudo pacman -Syu`.														<br>
-(3) Checks and prints results if kernel updated.											<br>
+(3) Checks and prints results if kernel is updated.											<br>
 (4) Runs the `overdue` script to print services to consider restarting.									<br>
 (5) Runs the `checkrebuild` script to print packages needing rebuilt.									<br>
 																	<br>
