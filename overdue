@@ -13,11 +13,11 @@ fi
 
 pids="$(lsof -d DEL 2>/dev/null | awk '$8~/\/usr\/lib/ {printf $2" "}')"
 
-	[[ -z "$pids" ]] && exit 0
+	[[ -z "${pids}" ]] && exit 0
 
 services="$(ps -o unit= $pids | sort -u)"
 
-	[[ -z "$services" ]] && exit 0
+	[[ -z "${services}" ]] && exit 0
 
 
 	echo -e ${yellow}${bold}"  Daemons/units with stale file handles open to upgraded libraries: 
@@ -25,7 +25,7 @@ services="$(ps -o unit= $pids | sort -u)"
 
 for i in $services; do
 
-    	echo " $i"
+    	echo "● $i"
 
 done
 

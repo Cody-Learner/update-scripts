@@ -1,5 +1,6 @@
 #!/bin/bash
-# syuscript 2019-07-11
+# syuscript 2024-07-15
+# dependencies: rebuild-detector >(checkrebuild) 'supplied script' >(overdue)
 # https://bbs.archlinux.org/viewtopic.php?id=246036
 # https://bbs.archlinux.org/viewtopic.php?id=132322
 
@@ -9,35 +10,44 @@ red='\033[0;91m'
 yellow="\033[0;93m"
 none='\033[00m'
 
-Filedate=$(find /home/jeff/Desktop/prep4ud.dir/ | sort | tail -1 | awk -F'/' '{print $6}')
+# Filedate=$(find /home/jeff/Desktop/prep4ud.dir/* -maxdepth 0 -type f | sort | tail -1 | awk -F'/' '{print $6}')
+Filedate=$(find /home/jeff/Desktop/prep4ud.dir/ -type f -printf "%f\n" | sort -V | tail -1)
 
 echo -e "${cyan} ${bold}
   Contents of ${Filedate}:
 ${none}"
 
-
 	cat /home/jeff/Desktop/prep4ud.dir/"${Filedate}"
 
-echo -e "${cyan} ${bold}
-  Running pacman:
+echo -e "${cyan}${bold}
+  Updating pacman sync database, pacman -Syu.
 ${none}"
-
-	sudo pacman --color=always -Syu
+	#sudo pacman --color=always -Syu
+	sudo pacman -Syu --color=always |& tee /home/jeff/pacman-update-logs/$(date '+%Y-%m-%d').log
 
 echo -e "${cyan}${bold}
-  Checking for need to restart: ${none}"
+  Checking for need to restart.... ${none}"
 
-	[ -d "/usr/lib/modules/$(uname -r)" ] || echo -e ${yellow}${bold} " Kernel was updated ${none}"
+#	modules=$(pacman -Qlq linux | awk -F/ '/usr\/lib\/modules\/[0-9]/ {print $5; exit}')
+	modules=$(find /usr/lib/modules -maxdepth 1 -printf "%f\n" | grep -v modules | sort | tail -n1)
 
-if	lsof | grep -q 'DEL.*lib' ; then
+	[ "$modules" != "$(uname -r)" ] && echo -e ${yellow}${bold} " Kernel was updated ${none}"
+
+if	lsof 2>/dev/null | grep -q 'DEL.*lib' ; then
 
 	echo
 	echo -e "${cyan}${bold}  Running overdue script..... ${none}"
 	sudo overdue
 	echo
-	else	
+	echo -e "${cyan}${bold}  Running checkrebuild. No output indicates no rebuilding needed.${none}"
+	checkrebuild -v
+
+    else
+	echo	
 	echo -e "${cyan}${bold}  No need to restart ${none}"
 fi
-
 	echo
-
+	echo -e "${cyan}${bold} To clean pacman cache, run the following: ${none}"
+	echo
+	echo " paccache --cachedir /var/cache/pacman/pkg/ --uninstalled --remove ; paccache --cachedir /var/cache/pacman/pkg/ --remove --keep 2 "
+	echo
