@@ -3,7 +3,7 @@ Syuscript is an update script used to provide pre and post system update informa
 																	<br>
 **The syuscript uses:**															<br>
 `pacman -Syu` for system updates													<br>
-prep4ud script reports: [prep4ud](https://github.com/Cody-Learner/prep4ud) 								<br>
+Optionally if setup, `prep4ud` script reports: [prep4ud](https://github.com/Cody-Learner/prep4ud) 								<br>
 A slightly modified overdue script by: [overdue.sh](https://github.com/tylerjl/overdue/blob/master/src/overdue.sh)			<br>
 The `checkrebuild` script of Arch package: [rebuild-detector](https://archlinux.org/packages/extra/any/rebuild-detector/)		<br>
 																	<br> 
