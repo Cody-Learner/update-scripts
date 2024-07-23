@@ -8,7 +8,7 @@ A slightly modified overdue script by: [overdue.sh](https://github.com/tylerjl/o
 The `checkrebuild` script of Arch package: [rebuild-detector](https://archlinux.org/packages/extra/any/rebuild-detector/)		<br>
 																	<br> 
 **Running syuscript:**															<br>
-(1) Prints latest `prep4ud` report providing last update & reboot times + list updatable packages downloaded.				<br>
+(1) Prints latest `prep4ud` (optionally) report providing last update & reboot times + updatable packages downloaded.			<br>
 (2) Runs `sudo pacman -Syu`.														<br>
 (3) Checks and prints results if kernel is updated.											<br>
 (4) Runs the `overdue` script to print services to consider restarting.									<br>
@@ -17,5 +17,4 @@ The `checkrebuild` script of Arch package: [rebuild-detector](https://archlinux.
 I've set up an syuscript alias as `Syu` in ~/.bashrc.											<br>
 																	<br>
 Screenshot syuscript: https://cody-learner.github.io/syuscript.html									<br>
-																	<br>
-																	<br>
+																	<br>																	<br>
