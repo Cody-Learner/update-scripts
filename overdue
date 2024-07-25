@@ -1,5 +1,5 @@
 #!/bin/bash
-# 2024-07-22
+# 2024-07-25
 # overdue script author and source: https://github.com/tylerjl/overdue/blob/master/src/overdue.sh
 
 bold='\033[1m'
@@ -15,7 +15,7 @@ pids="$(lsof -d DEL 2>/dev/null | awk '$8~/\/usr\/lib/ {printf $2" "}')"
 
 	[[ -z ${pids} ]] && exit 0
 
-services="$(ps -o unit= "${pids}" | sort -u)"
+services="$(ps -o unit= ${pids} | sort -u)"			# SC2086 Omited double quotes for proper operation.
 
 	[[ -z ${services} ]] && exit 0
 
