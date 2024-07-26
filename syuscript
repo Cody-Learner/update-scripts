@@ -1,6 +1,6 @@
 #!/bin/bash
 # syuscript 2024-07-26
-# dependencies: rebuild-detector >(checkrebuild) supplied script >(overdue)
+# dependencies: rebuild-detector >(checkrebuild) supplied script >(overdue) lsof
 # https://bbs.archlinux.org/viewtopic.php?id=246036
 # https://bbs.archlinux.org/viewtopic.php?id=132322
 
