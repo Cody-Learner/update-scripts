@@ -1,5 +1,5 @@
 #!/bin/bash
-# syuscript 2024-07-27
+# syuscript 2024-07-31
 # dependencies: supplied script >(overdue) rebuild-detector >(checkrebuild) lsof
 # https://bbs.archlinux.org/viewtopic.php?id=246036
 # https://bbs.archlinux.org/viewtopic.php?id=132322
@@ -7,6 +7,12 @@
 BC=$(tput bold; tput setaf 6)											# bold cyan font
 BY=$(tput bold; tput setaf 3)											# bold yellow font
 OFF=$(tput sgr0)												# turn off fancy fonts
+Modules=""
+
+if	! which checkrebuild lsof &>/dev/null; then								# Check/install deps
+	printf '\f%s\f\n' "${BC} Missing dependencies: rebuild-detector lsof. ${OFF}"
+	sudo pacman -S --needed rebuild-detector lsof
+fi
 
 logdest="${HOME}/update-logs"
 PrepRep=$(find "${HOME}"/Desktop/prep4ud.dir/ -type f -printf "%f\n" 2>/dev/null | sort -V | tail -1)		# Find latest prep4ud report
@@ -18,7 +24,8 @@ Kern=$(uname -s)												# Get current running kernel name
 if	[[ -f "${logdest}/$(date '+%Y-%m-%d').log" ]]; then						 	# For multiple runs, move current
 	mv "${logdest}/$(date '+%Y-%m-%d').log" "${logdest}/multiple-runs/$(date '+%Y-%m-%d-%R.%S').log"	# log to multiple-runs directory
 fi
-	find "${logdest}"/* -maxdepth 0 -type f | 	sort -V |  head -n -4  |  xargs rm -f			# Maintain 5 logs in logdest
+	find "${logdest}"/* -maxdepth 0 -type f               | sort -V |  head -n -4  |  xargs rm -f		# Maintain 5 logs in logdest
+	find "${logdest}"/multiple-runs/* -maxdepth 0 -type f | sort -V |  head -n -4  |  xargs rm -f		# Maintain 5 logs in multiple-runs
 
 tee_data(){
 	tee -a "${logdest}/$(date '+%Y-%m-%d').log"
@@ -61,4 +68,3 @@ fi
 
 	printf '\f%s\n' "${BC}  Log available run: ${OFF}"
 	printf '%s\n\f' "  cat ${logdest}/$(date '+%Y-%m-%d').log"
-
