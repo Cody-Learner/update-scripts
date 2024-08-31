@@ -10,7 +10,7 @@ OFF=$(tput sgr0)												# turn off fancy fonts
 Modules=""
 
 if	! which checkrebuild lsof &>/dev/null; then								# Check/install deps
-	printf '\f%s\f\n' "${BC} Missing dependencies: rebuild-detector lsof. ${OFF}"
+	printf '\n%s\n\n' "${BC} Missing dependencies: rebuild-detector lsof. ${OFF}"
 	sudo pacman -S --needed rebuild-detector lsof
 fi
 
@@ -31,15 +31,15 @@ tee_data(){
 	tee -a "${logdest}/$(date '+%Y-%m-%d').log"
 }
 
-	printf '\f%s\f\n' "${BC}  Contents of prep4ud report ${PrepRep}: ${OFF}"
+	printf '\n%s\n\n' "${BC}  Contents of prep4ud report ${PrepRep}: ${OFF}"
 	cat "${HOME}"/Desktop/prep4ud.dir/"${PrepRep}" 2>/dev/null || { echo "  Prep4ud report NA."; }
 
-	printf '\f%s\f\n' "${BC}  Running pacman -Syu....  ${OFF}"				|& tee_data
+	printf '\n%s\n\n' "${BC}  Running pacman -Syu....  ${OFF}"				|& tee_data
 	sudo pacman -Syu --color=always 							|& tee_data
 
 Modules=$(find /usr/lib/modules -maxdepth 1 -printf "%f\n" | grep -v modules | sort -V | tail -n1)		# Prep for kernel update check
 
-	printf '\f%s\n' "${BC}  Checking kernel update.... ${OFF}"				|& tee_data
+	printf '\n%s\n' "${BC}  Checking kernel update.... ${OFF}"				|& tee_data
 
 if	[[ ${Modules} != $(uname -r) ]]; then
 	printf '%s\n' "${BY}  Kernel was updated.${OFF}"					|& tee_data
@@ -49,22 +49,22 @@ fi														# ${Kern,,} ie: Linux to linux
 	[[ ${Modules} == $(uname -r) ]] && printf '%s\n' "  Running kernel was not updated." 	|& tee_data
 
 
-	printf '\f%s\n' "${BC}  Running overdue script..... ${OFF}"				|& tee_data
+	printf '\n%s\n' "${BC}  Running overdue script..... ${OFF}"				|& tee_data
 if	lsof 2>/dev/null | grep -q 'DEL.*lib' ; then
 	sudo "$(which overdue)"									|& tee_data
     else
 	printf '%s\n' "  No daemons/units with stale file handles."				|& tee_data
 fi
-	printf '\f%s\n' "${BC}  Running checkrebuild.... ${OFF}"				|& tee_data
+	printf '\n%s\n' "${BC}  Running checkrebuild.... ${OFF}"				|& tee_data
 	printf '%s\n' "  No output indicates no action needed."					|& tee_data
 	checkrebuild -v 									|& tee_data
 
-	printf '\f%s\n' "${BC}  To clean pacman cache run: ${OFF}"
+	printf '\n%s\n' "${BC}  To clean pacman cache run: ${OFF}"
 	printf '%s\n' "  paccache --cachedir /var/cache/pacman/pkg/ --uninstalled --remove "
 	printf '%s\n' "  paccache --cachedir /var/cache/pacman/pkg/ --remove --keep 2 "
 
-	printf '\f%s\n' "${BC}  To soft reboot run: ${OFF}"
+	printf '\n%s\n' "${BC}  To soft reboot run: ${OFF}"
 	printf '%s\n' "  systemctl soft-reboot"
 
-	printf '\f%s\n' "${BC}  Log available run: ${OFF}"
-	printf '%s\n\f' "  cat ${logdest}/$(date '+%Y-%m-%d').log"
+	printf '\n%s\n' "${BC}  Log available run: ${OFF}"
+	printf '%s\n\n' "  cat ${logdest}/$(date '+%Y-%m-%d').log"
